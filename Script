@@ -1,0 +1,11 @@
+SELECT 
+    session_id, 
+    start_time, 
+    status, 
+    command, 
+    percent_complete, 
+    estimated_completion_time, 
+    estimated_completion_time / 60 / 1000 AS estimate_completion_minutes,
+    DATEADD(MINUTE, (estimated_completion_time / 60 / 1000), GETDATE()) AS estimated_completion_time
+FROM sys.dm_exec_requests
+WHERE command = 'BACKUP DATABASE' OR command = 'RESTORE DATABASE';
